@@ -118,7 +118,10 @@
                 </td>
             </tr>
         </tbody>
-    </table>
-
+    </table><p>
+        실습 수행 일시:
+        <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+        | 학번: 2171148 | 성명: 최한나
+    </p>
 </body>
 </html>
