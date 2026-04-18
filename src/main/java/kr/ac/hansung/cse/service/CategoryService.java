@@ -1,11 +1,13 @@
 package kr.ac.hansung.cse.service;
 
+import kr.ac.hansung.cse.exception.CategoryHasProductsException;
 import kr.ac.hansung.cse.exception.DuplicateCategoryException;
 import kr.ac.hansung.cse.model.Category;
 import kr.ac.hansung.cse.model.CategoryForm;
 import kr.ac.hansung.cse.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 @Service
@@ -35,6 +37,13 @@ public class CategoryService {
 
     @Transactional
     public void deleteCategory(Long id) {
+        Category category = categoryRepository.findByIdWithProducts(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다."));
+
+        if (category.getProducts() != null && !category.getProducts().isEmpty()) {
+            throw new CategoryHasProductsException("연결된 상품이 있는 카테고리는 삭제할 수 없습니다.");
+        }
+
         categoryRepository.delete(id);
     }
 }
