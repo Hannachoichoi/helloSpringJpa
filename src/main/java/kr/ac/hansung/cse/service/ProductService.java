@@ -79,6 +79,24 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> searchProducts(String keyword, Long categoryId) {
+        boolean hasKeyword = keyword != null && !keyword.isBlank();
+        boolean hasCategory = categoryId != null;
+
+        if (hasKeyword && hasCategory) {
+            return productRepository.findByNameContainingAndCategoryId(keyword, categoryId);
+        }
+
+        if (hasKeyword) {
+            return productRepository.findByNameContaining(keyword);
+        }
+
+        if (hasCategory) {
+            return productRepository.findByCategoryId(categoryId);
+        }
+
+        return productRepository.findAll();
+    }
     /**
      * ID로 상품 조회
      * Optional을 그대로 반환하여 Controller가 null 처리를 명시적으로 하도록 강제합니다.
