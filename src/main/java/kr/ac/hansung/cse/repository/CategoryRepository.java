@@ -46,10 +46,11 @@ public class CategoryRepository {
     // JOIN FETCH: N+1 문제 방지 (Category + Products 한 번에 로드)
     public Optional<Category> findByIdWithProducts(Long id) {
         List<Category> result = em.createQuery(
-                        "SELECT DISTINCT c FROM Category c JOIN FETCH c.products WHERE c.id = :id",
+                        "SELECT DISTINCT c FROM Category c LEFT JOIN FETCH c.products WHERE c.id = :id",
                         Category.class)
                 .setParameter("id", id)
                 .getResultList();
+
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 }

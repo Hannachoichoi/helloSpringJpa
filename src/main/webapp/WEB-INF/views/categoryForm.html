@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>카테고리 등록</title>
+    <style>
+        body { font-family: 'Malgun Gothic', Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #4a90d9; padding-bottom: 10px; color: #2c3e50; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; }
+        input[type="text"] { width: 100%; max-width: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .error { color: red; font-size: 0.9em; margin-top: 4px; display: block; }
+        .btn { display: inline-block; padding: 8px 16px; background: #4a90d9; color: white; text-decoration: none; border: none; border-radius: 4px; cursor: pointer; margin-right: 8px; }
+        .btn:hover { background: #357abd; }
+        .back-link { color: #666; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
-$END$
+
+<h1>카테고리 등록</h1>
+
+<form th:action="@{/categories/create}" th:object="${categoryForm}" method="post">
+    <div class="form-group">
+        <label for="name">카테고리 이름</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="카테고리 이름 입력">
+        <span class="error" th:errors="*{name}"></span>
+    </div>
+
+    <button type="submit" class="btn">등록</button>
+    <a th:href="@{/categories}" class="back-link">목록으로 돌아가기</a>
+</form>
+
+<p>
+    실습 수행 일시:
+    <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+    | 학번: 2171148 | 성명: 최한나
+</p>
+
 </body>
 </html>

@@ -49,6 +49,25 @@
 
     <a class="btn" th:href="@{/products/create}">+ 새 상품 등록</a>
 
+    <form th:action="@{/products}" method="get" style="margin-bottom: 20px;">
+        <input type="text"
+               name="keyword"
+               placeholder="상품명 검색"
+               th:value="${keyword}"
+               style="padding: 6px; margin-right: 8px;">
+
+        <input type="number"
+               name="categoryId"
+               placeholder="카테고리 ID"
+               th:value="${categoryId}"
+               style="padding: 6px; margin-right: 8px; width: 140px;">
+
+        <button type="submit" class="btn">검색</button>
+
+        <a th:href="@{/products}" style="margin-left: 10px;">초기화</a>
+    </form>
+
+
     <div class="empty-msg" th:if="${#lists.isEmpty(products)}">
         등록된 상품이 없습니다. 새 상품을 등록해 주세요.
     </div>
