@@ -18,6 +18,12 @@ public class CategoryRepository {
         em.persist(category);
         return category;
     }
+    public void delete(Long id) {
+        Category category = em.find(Category.class, id);
+        if (category != null) {
+            em.remove(category);
+        }
+    }
 
     public Optional<Category> findById(Long id) {
         return Optional.ofNullable(em.find(Category.class, id));
