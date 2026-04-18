@@ -1,5 +1,6 @@
 package kr.ac.hansung.cse.service;
 
+import kr.ac.hansung.cse.exception.DuplicateCategoryException;
 import kr.ac.hansung.cse.model.Category;
 import kr.ac.hansung.cse.model.CategoryForm;
 import kr.ac.hansung.cse.repository.CategoryRepository;
@@ -23,6 +24,11 @@ public class CategoryService {
 
     @Transactional
     public void saveCategory(CategoryForm categoryForm) {
+        categoryRepository.findByName(categoryForm.getName())
+                .ifPresent(category -> {
+                    throw new DuplicateCategoryException("이미 존재하는 카테고리입니다.");
+                });
+
         Category category = new Category(categoryForm.getName());
         categoryRepository.save(category);
     }

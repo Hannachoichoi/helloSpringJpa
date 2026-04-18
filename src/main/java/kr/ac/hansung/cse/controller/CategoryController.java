@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import kr.ac.hansung.cse.exception.DuplicateCategoryException;
 
 @Controller
 @RequestMapping("/categories")
@@ -41,9 +42,16 @@ public class CategoryController {
             return "categoryForm";
         }
 
-        categoryService.saveCategory(categoryForm);
+        try {
+            categoryService.saveCategory(categoryForm);
+        } catch (DuplicateCategoryException e) {
+            bindingResult.rejectValue("name", "duplicate", e.getMessage());
+            return "categoryForm";
+        }
+
         return "redirect:/categories";
     }
+
     @PostMapping("/{id}/delete")
     public String deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
